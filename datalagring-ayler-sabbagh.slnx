@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="CoursesManager.Application/CoursesManager.Application.csproj" Id="13753ab9-b952-4db7-9d94-a2a06ce433b0" />
   <Project Path="CoursesManager.Domain/CoursesManager.Domain.csproj" Id="b97ce3d9-0261-4f48-b8b6-ad5b9240219a" />
+  <Project Path="CoursesManager.Infrastructure/CoursesManager.Infrastructure.csproj" Id="0b2bca92-7243-41f7-8b37-80ff94d97b9f" />
 </Solution>
