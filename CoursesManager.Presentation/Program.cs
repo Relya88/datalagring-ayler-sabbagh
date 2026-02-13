@@ -1,4 +1,5 @@
 using CoursesManager.Application.Abstractions;
+using CoursesManager.Application.Dtos.Courses;
 using CoursesManager.Application.Services;
 using CoursesManager.Infrastructure.Persistence;
 using CoursesManager.Infrastructure.Persistence.Repositories;
@@ -17,6 +18,27 @@ var app = builder.Build();
 
 //test-endpoint för att verifiera att APIet funkar
 app.MapGet("/", () => "CoursesManager API is running");
+
+#region Courses
+
+var courses = app.MapGroup("/api/courses");
+
+//skapar kurs
+courses.MapPost("/", async (CreateCourseDto dto, CourseService service) =>
+{
+    var result = await service.CreateCourseAsync(dto);
+    return Results.Created($"/api/courses/{result.Id}", result);
+});
+
+//hämtar alla kurser
+courses.MapGet("/", async (CourseService service) =>
+{
+    var result = await service.GetAllCoursesAsync();
+    return Results.Ok(result);
+});
+
+#endregion
+
 
 //start av applikation
 app.Run();
