@@ -31,8 +31,10 @@ public class CourseService
     {
         return await _courseRepository.GetAllAsync();
     }
+
+    // Hämtar kurs baserat på id
+    public async Task<CourseEntity?> GetCourseByIdAsync(int id)
+    {
+        return await _courseRepository.GetByIdAsync(id);
+    }
 }
-
-
-
-//hanterar logik som är kopplad till kurser

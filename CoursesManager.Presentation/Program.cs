@@ -52,6 +52,18 @@ courses.MapGet("/", async (CourseService service) =>
     return Results.Ok(result);
 });
 
+// hämtar kurs baserat på id
+courses.MapGet("/{id:int}", async (int id, CourseService service) =>
+{
+    var result = await service.GetCourseByIdAsync(id);
+
+    if (result is null)
+        return Results.NotFound();
+
+    return Results.Ok(result);
+});
+
+
 #endregion
 
 //start av applikation
