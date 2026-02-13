@@ -13,8 +13,23 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+//reggar repo och service i DI containern
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
+builder.Services.AddScoped<CourseService>();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen();
+
 //själva applikationen som skapas
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 //test-endpoint för att verifiera att APIet funkar
 app.MapGet("/", () => "CoursesManager API is running");
@@ -39,12 +54,7 @@ courses.MapGet("/", async (CourseService service) =>
 
 #endregion
 
-
 //start av applikation
 app.Run();
 
-//reggar repo och service i DI containern
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-
-builder.Services.AddScoped<CourseService>();
 
