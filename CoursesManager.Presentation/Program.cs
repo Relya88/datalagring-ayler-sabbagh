@@ -3,6 +3,7 @@ using CoursesManager.Application.Dtos.Courses;
 using CoursesManager.Application.Services;
 using CoursesManager.Infrastructure.Persistence;
 using CoursesManager.Infrastructure.Persistence.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -25,6 +26,8 @@ builder.Services.AddScoped<CourseService>();
 
 builder.Services.AddScoped<ICourseSessionRepository, CourseSessionRepository>();
 
+builder.Services.AddScoped<CourseSessionService>();
+
 #endregion
 
 
@@ -40,6 +43,7 @@ builder.Services.AddSwaggerGen();
 #endregion
 
 
+
 //själva applikationen som skapas
 var app = builder.Build();
 
@@ -51,7 +55,6 @@ if (app.Environment.IsDevelopment())
 
 //test-endpoint för att verifiera att APIet funkar
 app.MapGet("/", () => "CoursesManager API is running");
-
 
 
 
@@ -97,6 +100,35 @@ courses.MapDelete("/{id}", async (int id, CourseService service) =>
 });
 
 #endregion
+
+
+
+
+#region CourseSessions
+
+var sessions = app.MapGroup("/api/coursesessions");
+
+// Skapar ett nytt kurstillfälle
+sessions.MapPost("/", async (
+    DateTime startDate,
+    DateTime endDate,
+    int courseId,
+    CourseSessionService service) =>
+{
+    var result = await service.CreateCourseSessionAsync(startDate, endDate, courseId);
+    return Results.Created($"/api/coursesessions/{result.Id}", result);
+});
+
+// Hämtar alla kurstillfällen
+sessions.MapGet("/", async (CourseSessionService service) =>
+{
+    var result = await service.GetAllCourseSessionsAsync();
+    return Results.Ok(result);
+});
+
+#endregion
+
+
 
 //start av applikation
 app.Run();
