@@ -63,6 +63,17 @@ courses.MapGet("/{id:int}", async (int id, CourseService service) =>
     return Results.Ok(result);
 });
 
+// tar bort kurs
+courses.MapDelete("/{id}", async (int id, CourseService service) =>
+{
+    var deleted = await service.DeleteCourseAsync(id);
+
+    if (!deleted)
+        return Results.NotFound();
+
+    return Results.NoContent();
+});
+
 
 #endregion
 

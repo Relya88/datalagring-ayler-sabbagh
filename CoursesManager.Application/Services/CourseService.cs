@@ -4,7 +4,7 @@ using CoursesManager.Application.Abstractions;
 
 namespace CoursesManager.Application.Services;
 
-// Hanterar affärslogik för kurser
+// Hanterar affärslogik för kurserna
 public class CourseService
 {
     private readonly ICourseRepository _courseRepository;
@@ -32,9 +32,17 @@ public class CourseService
         return await _courseRepository.GetAllAsync();
     }
 
-    // Hämtar kurs baserat på id
+    // Hämtar kurs baserat på id:et
     public async Task<CourseEntity?> GetCourseByIdAsync(int id)
     {
         return await _courseRepository.GetByIdAsync(id);
     }
+
+    //tar bort kurs
+    public async Task<bool> DeleteCourseAsync(int id)
+
+    {
+        return await _courseRepository.DeleteAsync(id);
+    }
+
 }
