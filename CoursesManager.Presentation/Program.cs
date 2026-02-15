@@ -13,14 +13,32 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+
+
+#region Dependency Injection
+
 //reggar repo och service i DI containern
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
 builder.Services.AddScoped<CourseService>();
 
+builder.Services.AddScoped<ICourseSessionRepository, CourseSessionRepository>();
+
+#endregion
+
+
+
+
+#region Swagger
+
+//reggar stöd för min-API och swagger
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
+
+#endregion
+
 
 //själva applikationen som skapas
 var app = builder.Build();
@@ -33,6 +51,10 @@ if (app.Environment.IsDevelopment())
 
 //test-endpoint för att verifiera att APIet funkar
 app.MapGet("/", () => "CoursesManager API is running");
+
+
+
+
 
 #region Courses
 
@@ -73,7 +95,6 @@ courses.MapDelete("/{id}", async (int id, CourseService service) =>
 
     return Results.NoContent();
 });
-
 
 #endregion
 
