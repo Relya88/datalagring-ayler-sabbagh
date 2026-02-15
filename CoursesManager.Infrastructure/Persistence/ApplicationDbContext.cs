@@ -12,5 +12,8 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<CourseEntity> Courses { get; set; } = null!;
+
+    public DbSet<CourseSessionEntity> CourseSessions { get; set; } = null!;
+
 }
 

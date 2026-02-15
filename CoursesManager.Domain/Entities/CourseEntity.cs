@@ -15,5 +15,9 @@ public class CourseEntity
     public DateTime UpdatedAt { get; set; }
     public byte[] RowVersion { get; set; } = [];
 
+
+    //navigation propertyn så att en kurs kan ha flera kurstillfällen
+    public ICollection<CourseSessionEntity> CourseSessions { get; set; } = [];
+
 }
 

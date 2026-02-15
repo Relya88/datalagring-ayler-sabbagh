@@ -63,7 +63,7 @@ courses.MapGet("/{id:int}", async (int id, CourseService service) =>
     return Results.Ok(result);
 });
 
-// tar bort kurs
+// tar bort kurs (tog hjälp av chatgpt fö delete-endpoint)
 courses.MapDelete("/{id}", async (int id, CourseService service) =>
 {
     var deleted = await service.DeleteCourseAsync(id);

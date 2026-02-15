@@ -38,7 +38,7 @@ public class CourseService
         return await _courseRepository.GetByIdAsync(id);
     }
 
-    //tar bort kurs
+    //tar bort kurs. Tog lite hjälp chatgpt för att koppla borttagningsfunktionen via servicelagret
     public async Task<bool> DeleteCourseAsync(int id)
 
     {

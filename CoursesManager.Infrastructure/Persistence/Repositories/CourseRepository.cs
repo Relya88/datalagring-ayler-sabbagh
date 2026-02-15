@@ -18,6 +18,7 @@ public class CourseRepository
                              .FirstOrDefaultAsync(c => c.Id == id);
     }
 
+    //borttagning av kurs (tog hjälp av chatgpt för att möjliggöra det)
     public async Task<bool> DeleteAsync(int id)
     {
         var entity = await _context.Set<CourseEntity>()

@@ -2,7 +2,7 @@
 
 namespace CoursesManager.Infrastructure.Persistence.Repositories;
 
-//grundrepositoryn med gemensamma metoder
+//grundrepositoryn med gemensamma metoder, tog hjlp av chatgpt för att minska duplicering 
 public class BaseRepository<TEntity> where TEntity : class
 {
     protected readonly ApplicationDbContext _context;
