@@ -16,7 +16,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 
-
 #region Dependency Injection
 
 //reggar repo och service i DI containern
@@ -27,6 +26,10 @@ builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<ICourseSessionRepository, CourseSessionRepository>();
 
 builder.Services.AddScoped<CourseSessionService>();
+
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+
+builder.Services.AddScoped<TeacherService>();
 
 #endregion
 
@@ -127,6 +130,54 @@ sessions.MapGet("/", async (CourseSessionService service) =>
 });
 
 #endregion
+
+
+#region Teachers
+
+var teachers = app.MapGroup("/api/teachers");
+
+//skapar ny lärare
+teachers.MapPost("/", async (
+    string firstName,
+    string lastName,
+    string email,
+    TeacherService service) =>
+{
+    var result = await service.CreateTeacherAsync(firstName, lastName, email);
+    return Results.Created($"/api/teachers/{result.Id}", result);
+});
+
+//hämtar alla lärare
+teachers.MapGet("/", async (TeacherService service) =>
+{
+    var result = await service.GetAllTeachersAsync();
+    return Results.Ok(result);
+});
+
+//hämtar lärare via id:et
+teachers.MapGet("/{id:int}", async (int id, TeacherService service) =>
+{
+    var result = await service.GetTeacherByIdAsync(id);
+
+    if (result is null)
+        return Results.NotFound();
+
+    return Results.Ok(result);
+});
+
+//tar bort lärare
+teachers.MapDelete("/{id}", async (int id, TeacherService service) =>
+{
+    var deleted = await service.DeleteTeacherAsync(id);
+
+    if (!deleted)
+        return Results.NotFound();
+
+    return Results.NoContent();
+});
+
+#endregion
+
 
 
 
