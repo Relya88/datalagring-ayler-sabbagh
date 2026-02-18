@@ -31,6 +31,11 @@ builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 builder.Services.AddScoped<TeacherService>();
 
+builder.Services.AddScoped<IParticipantRepository, ParticipantRepository>();
+
+builder.Services.AddScoped<ParticipantService>();
+
+
 #endregion
 
 
@@ -179,6 +184,55 @@ teachers.MapDelete("/{id}", async (int id, TeacherService service) =>
 #endregion
 
 
+
+
+
+
+#region Participants
+
+var participants = app.MapGroup("/api/participants");
+
+// Skapar ny deltagare
+participants.MapPost("/", async (
+    string firstName,
+    string lastName,
+    string email,
+    ParticipantService service) =>
+{
+    var result = await service.CreateParticipantAsync(firstName, lastName, email);
+    return Results.Created($"/api/participants/{result.Id}", result);
+});
+
+//hämtar alla deltagare
+participants.MapGet("/", async (ParticipantService service) =>
+{
+    var result = await service.GetAllParticipantsAsync();
+    return Results.Ok(result);
+});
+
+// Hämtar deltagare via id
+participants.MapGet("/{id:int}", async (int id, ParticipantService service) =>
+{
+    var result = await service.GetParticipantByIdAsync(id);
+
+    if (result is null)
+        return Results.NotFound();
+
+    return Results.Ok(result);
+});
+
+// Tar bort deltagare
+participants.MapDelete("/{id}", async (int id, ParticipantService service) =>
+{
+    var deleted = await service.DeleteParticipantAsync(id);
+
+    if (!deleted)
+        return Results.NotFound();
+
+    return Results.NoContent();
+});
+
+#endregion
 
 
 //start av applikation

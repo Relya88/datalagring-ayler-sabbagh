@@ -17,5 +17,7 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<TeacherEntity> Teachers { get; set; } = null!;
 
+    public DbSet<ParticipantEntity> Participants { get; set; } = null!;
+
 }
 
