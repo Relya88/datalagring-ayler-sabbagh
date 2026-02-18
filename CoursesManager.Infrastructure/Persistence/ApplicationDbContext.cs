@@ -19,5 +19,7 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<ParticipantEntity> Participants { get; set; } = null!;
 
+    public DbSet<RegistrationEntity> Registrations { get; set; } = null!;
+
 }
 

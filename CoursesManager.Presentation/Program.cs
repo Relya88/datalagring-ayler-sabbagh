@@ -3,6 +3,7 @@ using CoursesManager.Application.Dtos.Courses;
 using CoursesManager.Application.Services;
 using CoursesManager.Infrastructure.Persistence;
 using CoursesManager.Infrastructure.Persistence.Repositories;
+using CoursesManager.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +36,9 @@ builder.Services.AddScoped<IParticipantRepository, ParticipantRepository>();
 
 builder.Services.AddScoped<ParticipantService>();
 
+builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
+
+builder.Services.AddScoped<RegistrationService>();
 
 #endregion
 
@@ -49,7 +53,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 #endregion
-
 
 
 //själva applikationen som skapas
@@ -137,6 +140,8 @@ sessions.MapGet("/", async (CourseSessionService service) =>
 #endregion
 
 
+
+
 #region Teachers
 
 var teachers = app.MapGroup("/api/teachers");
@@ -186,8 +191,6 @@ teachers.MapDelete("/{id}", async (int id, TeacherService service) =>
 
 
 
-
-
 #region Participants
 
 var participants = app.MapGroup("/api/participants");
@@ -233,6 +236,33 @@ participants.MapDelete("/{id}", async (int id, ParticipantService service) =>
 });
 
 #endregion
+
+
+
+
+#region Registrations
+
+var registrations = app.MapGroup("/api/registrations");
+
+//skapar en ny reg (kopplar en deltagare till ett kurstillfälle)
+registrations.MapPost("/", async (
+    int participantId,
+    int courseSessionId,
+    RegistrationService service) =>
+{
+    var result = await service.CreateRegistrationAsync(participantId, courseSessionId);
+    return Results.Created($"/api/registrations/{result.Id}", result);
+});
+
+//hämtar alla reg
+registrations.MapGet("/", async (RegistrationService service) =>
+{
+    var result = await service.GetAllRegistrationsAsync();
+    return Results.Ok(result);
+});
+
+#endregion
+
 
 
 //start av applikation
