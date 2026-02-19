@@ -333,6 +333,28 @@ registrations.MapGet("/", async (RegistrationService service) =>
     return Results.Ok(result);
 });
 
+// Hämtar reg via id
+registrations.MapGet("/{id:int}", async (int id, RegistrationService service) =>
+{
+    var result = await service.GetRegistrationByIdAsync(id);
+
+    if (result is null)
+        return Results.NotFound();
+
+    return Results.Ok(result);
+});
+
+// Tar bort reg
+registrations.MapDelete("/{id:int}", async (int id, RegistrationService service) =>
+{
+    var deleted = await service.DeleteRegistrationAsync(id);
+
+    if (!deleted)
+        return Results.NotFound();
+
+    return Results.NoContent();
+});
+
 #endregion
 
 

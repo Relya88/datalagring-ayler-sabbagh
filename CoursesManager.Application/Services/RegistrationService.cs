@@ -30,5 +30,18 @@ public class RegistrationService
     {
         return await _repository.GetAllAsync();
     }
+
+    // Hämtar reg via id
+    public async Task<RegistrationEntity?> GetRegistrationByIdAsync(int id)
+    {
+        return await _repository.GetByIdAsync(id);
+    }
+
+    //tar bort reg
+    public async Task<bool> DeleteRegistrationAsync(int id)
+    {
+        return await _repository.DeleteAsync(id);
+    }
+
 }
 

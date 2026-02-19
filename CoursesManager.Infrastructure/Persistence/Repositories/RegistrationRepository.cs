@@ -34,4 +34,29 @@ public class RegistrationRepository : IRegistrationRepository
             .Include(r => r.CourseSession)
             .ToListAsync();
     }
+
+    //hämtar reg via id
+    public async Task<RegistrationEntity?> GetByIdAsync(int id)
+    {
+        return await _context.Registrations
+            .Include(r => r.Participant)
+            .Include(r => r.CourseSession)
+            .FirstOrDefaultAsync(r => r.Id == id);
+    }
+
+    //tar bort reg
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var entity = await _context.Registrations
+            .FirstOrDefaultAsync(r => r.Id == id);
+
+        if (entity == null)
+            return false;
+
+        _context.Registrations.Remove(entity);
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
 }

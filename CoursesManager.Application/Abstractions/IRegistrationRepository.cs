@@ -9,5 +9,11 @@ namespace CoursesManager.Application.Abstractions;
 public interface IRegistrationRepository
 {
     Task<RegistrationEntity> AddAsync(RegistrationEntity entity);
+
     Task<IEnumerable<RegistrationEntity>> GetAllAsync();
+
+    Task<RegistrationEntity?> GetByIdAsync(int id);
+
+    Task<bool> DeleteAsync(int id);
+
 }
