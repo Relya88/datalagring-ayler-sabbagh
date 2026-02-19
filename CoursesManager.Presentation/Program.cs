@@ -1,6 +1,7 @@
 using CoursesManager.Application.Abstractions;
 using CoursesManager.Application.Dtos.Courses;
 using CoursesManager.Application.Dtos.Participants;
+using CoursesManager.Application.Dtos.Teachers;
 using CoursesManager.Application.Services;
 using CoursesManager.Infrastructure.Persistence;
 using CoursesManager.Infrastructure.Persistence.Repositories;
@@ -199,6 +200,17 @@ teachers.MapDelete("/{id}", async (int id, TeacherService service) =>
     return Results.NoContent();
 });
 
+//upppdaterar lärare
+teachers.MapPut("/{id:int}", async (int id, UpdateTeacherDto dto, TeacherService service) =>
+{
+    var result = await service.UpdateTeacherAsync(id, dto);
+
+    if (result is null)
+        return Results.NotFound();
+
+    return Results.Ok(result);
+});
+
 #endregion
 
 
@@ -287,9 +299,6 @@ registrations.MapGet("/", async (RegistrationService service) =>
 });
 
 #endregion
-
-
-
 
 
 

@@ -15,4 +15,7 @@ public interface ITeacherRepository
     Task<TeacherEntity?> GetByIdAsync(int id);
 
     Task<bool> DeleteAsync(int id);
+
+    Task<TeacherEntity?> UpdateAsync(int id, TeacherEntity entity);
+
 }

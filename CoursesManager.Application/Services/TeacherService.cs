@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using CoursesManager.Application.Abstractions;
 using CoursesManager.Domain.Entities;
+using CoursesManager.Application.Dtos.Teachers;
 
 namespace CoursesManager.Application.Services;
 
@@ -49,4 +50,18 @@ public class TeacherService
     {
         return await _teacherRepository.DeleteAsync(id);
     }
+
+    //uppdaterar en lärare via servicee
+    public async Task<TeacherEntity?> UpdateTeacherAsync(int id, UpdateTeacherDto dto)
+    {
+        var updatedTeacher = new TeacherEntity
+        {
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
+            Email = dto.Email
+        };
+
+        return await _teacherRepository.UpdateAsync(id, updatedTeacher);
+    }
+
 }

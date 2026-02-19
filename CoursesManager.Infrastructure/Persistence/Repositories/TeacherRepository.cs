@@ -19,6 +19,7 @@ public class TeacherRepository
                              .FirstOrDefaultAsync(t => t.Id == id);
     }
 
+    //tar bort deltagare
     public async Task<bool> DeleteAsync(int id)
     {
         var entity = await _context.Set<TeacherEntity>()
@@ -31,4 +32,23 @@ public class TeacherRepository
         await _context.SaveChangesAsync();
         return true;
     }
+
+    // Uppdaterar en lärare 
+    public async Task<TeacherEntity?> UpdateAsync(int id, TeacherEntity entity)
+    {
+        var existingTeacher = await _context.Set<TeacherEntity>()
+            .FirstOrDefaultAsync(t => t.Id == id);
+
+        if (existingTeacher == null)
+            return null;
+
+        existingTeacher.FirstName = entity.FirstName;
+        existingTeacher.LastName = entity.LastName;
+        existingTeacher.Email = entity.Email;
+
+        await _context.SaveChangesAsync();
+
+        return existingTeacher;
+    }
+
 }
