@@ -99,7 +99,7 @@ courses.MapGet("/{id:int}", async (int id, CourseService service) =>
     return Results.Ok(result);
 });
 
-// tar bort kurs (tog hjälp av chatgpt fö delete-endpoint)
+// tar bort kurs (tog hjälp av chatgpt för delete-endpoint)
 courses.MapDelete("/{id}", async (int id, CourseService service) =>
 {
     var deleted = await service.DeleteCourseAsync(id);
@@ -109,6 +109,18 @@ courses.MapDelete("/{id}", async (int id, CourseService service) =>
 
     return Results.NoContent();
 });
+
+//uppdaterar kurs
+courses.MapPut("/{id:int}", async (int id, UpdateCourseDto dto, CourseService service) =>
+{
+    var result = await service.UpdateCourseAsync(id, dto);
+
+    if (result is null)
+        return Results.NotFound();
+
+    return Results.Ok(result);
+});
+
 
 #endregion
 
@@ -262,6 +274,9 @@ registrations.MapGet("/", async (RegistrationService service) =>
 });
 
 #endregion
+
+
+
 
 
 

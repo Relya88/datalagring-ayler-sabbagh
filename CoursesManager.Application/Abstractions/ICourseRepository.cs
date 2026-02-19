@@ -14,4 +14,8 @@ public interface ICourseRepository
     //Tar bort 
     Task<bool> DeleteAsync(int id);
 
+    //uppdaterar
+    Task<CourseEntity?> UpdateAsync(int id, CourseEntity entity);
+
+
 }

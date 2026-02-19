@@ -45,4 +45,18 @@ public class CourseService
         return await _courseRepository.DeleteAsync(id);
     }
 
+    //updatering av kurs
+    public async Task<CourseEntity?> UpdateCourseAsync(int id, UpdateCourseDto dto)
+    {
+        var updatedCourse = new CourseEntity
+        {
+            CourseCode = dto.CourseCode,
+            Title = dto.Title,
+            Description = dto.Description
+        };
+
+        return await _courseRepository.UpdateAsync(id, updatedCourse);
+    }
+
+
 }

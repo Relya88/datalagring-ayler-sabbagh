@@ -32,4 +32,24 @@ public class CourseRepository
         return true;
     }
 
+    //uppdatering av kurs
+    public async Task<CourseEntity?> UpdateAsync(int id, CourseEntity entity)
+    {
+        var existingCourse = await _context.Set<CourseEntity>()
+            .FirstOrDefaultAsync(c => c.Id == id);
+
+        if (existingCourse == null)
+            return null;
+
+        existingCourse.CourseCode = entity.CourseCode;
+        existingCourse.Title = entity.Title;
+        existingCourse.Description = entity.Description;
+        existingCourse.UpdatedAt = DateTime.UtcNow;
+
+        await _context.SaveChangesAsync();
+
+        return existingCourse;
+    }
+
+
 }
