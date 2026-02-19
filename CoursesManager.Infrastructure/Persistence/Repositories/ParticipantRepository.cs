@@ -23,6 +23,7 @@ public class ParticipantRepository
                              .FirstOrDefaultAsync(p => p.Id == id);
     }
 
+    //tar bort
     public async Task<bool> DeleteAsync(int id)
     {
         var entity = await _context.Set<ParticipantEntity>()
@@ -35,4 +36,23 @@ public class ParticipantRepository
         await _context.SaveChangesAsync();
         return true;
     }
+
+    //upppdaterar en deltagare i databasen
+    public async Task<ParticipantEntity?> UpdateAsync(int id, ParticipantEntity entity)
+    {
+        var existingParticipant = await _context.Set<ParticipantEntity>()
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (existingParticipant == null)
+            return null;
+
+        existingParticipant.FirstName = entity.FirstName;
+        existingParticipant.LastName = entity.LastName;
+        existingParticipant.Email = entity.Email;
+
+        await _context.SaveChangesAsync();
+
+        return existingParticipant;
+    }
+
 }

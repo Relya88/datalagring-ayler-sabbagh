@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using CoursesManager.Application.Abstractions;
 using CoursesManager.Domain.Entities;
+using CoursesManager.Application.Dtos.Participants;
+
 
 namespace CoursesManager.Application.Services;
 
@@ -49,4 +51,18 @@ public class ParticipantService
     {
         return await _participantRepository.DeleteAsync(id);
     }
+
+    //uppdaterar en deltagar
+    public async Task<ParticipantEntity?> UpdateParticipantAsync(int id, UpdateParticipantDto dto)
+    {
+        var updatedParticipant = new ParticipantEntity
+        {
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
+            Email = dto.Email
+        };
+
+        return await _participantRepository.UpdateAsync(id, updatedParticipant);
+    }
+
 }

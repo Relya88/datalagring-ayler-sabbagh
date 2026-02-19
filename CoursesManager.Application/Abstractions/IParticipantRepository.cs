@@ -15,4 +15,7 @@ public interface IParticipantRepository
     Task<ParticipantEntity?> GetByIdAsync(int id);
 
     Task<bool> DeleteAsync(int id);
+
+    Task<ParticipantEntity?> UpdateAsync(int id, ParticipantEntity entity);
+
 }

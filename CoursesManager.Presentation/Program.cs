@@ -1,5 +1,6 @@
 using CoursesManager.Application.Abstractions;
 using CoursesManager.Application.Dtos.Courses;
+using CoursesManager.Application.Dtos.Participants;
 using CoursesManager.Application.Services;
 using CoursesManager.Infrastructure.Persistence;
 using CoursesManager.Infrastructure.Persistence.Repositories;
@@ -246,6 +247,18 @@ participants.MapDelete("/{id}", async (int id, ParticipantService service) =>
 
     return Results.NoContent();
 });
+
+// Uppdaterar deltagare
+participants.MapPut("/{id:int}", async (int id, UpdateParticipantDto dto, ParticipantService service) =>
+{
+    var result = await service.UpdateParticipantAsync(id, dto);
+
+    if (result is null)
+        return Results.NotFound();
+
+    return Results.Ok(result);
+});
+
 
 #endregion
 
