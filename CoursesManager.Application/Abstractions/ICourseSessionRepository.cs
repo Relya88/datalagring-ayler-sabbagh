@@ -9,5 +9,14 @@ namespace CoursesManager.Application.Abstractions;
 public interface ICourseSessionRepository
 {
     Task<CourseSessionEntity> AddAsync(CourseSessionEntity entity);
+
     Task<IEnumerable<CourseSessionEntity>> GetAllAsync();
+
+    Task<CourseSessionEntity?> GetByIdAsync(int id);
+
+    Task<CourseSessionEntity?> UpdateAsync(int id, CourseSessionEntity entity);
+
+    Task<bool> DeleteAsync(int id);
+
+
 }

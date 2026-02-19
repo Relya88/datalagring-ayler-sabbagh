@@ -1,8 +1,9 @@
-﻿using System;
+﻿using CoursesManager.Application.Abstractions;
+using CoursesManager.Application.Dtos.CourseSessions;
+using CoursesManager.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using CoursesManager.Application.Abstractions;
-using CoursesManager.Domain.Entities;
 
 namespace CoursesManager.Application.Services;
 
@@ -37,6 +38,32 @@ public class CourseSessionService
     {
         return await _courseSessionRepository.GetAllAsync();
     }
+
+    // Hämtar kurstillfälle via id
+    public async Task<CourseSessionEntity?> GetCourseSessionByIdAsync(int id)
+    {
+        return await _courseSessionRepository.GetByIdAsync(id);
+    }
+
+    // Uppdaterar kurstillfälle
+    public async Task<CourseSessionEntity?> UpdateCourseSessionAsync(int id, UpdateCourseSessionDto dto)
+    {
+        var updatedSession = new CourseSessionEntity
+        {
+            StartDate = dto.StartDate,
+            EndDate = dto.EndDate,
+            CourseId = dto.CourseId
+        };
+
+        return await _courseSessionRepository.UpdateAsync(id, updatedSession);
+    }
+
+    // Tar bort kurstillfälle
+    public async Task<bool> DeleteCourseSessionAsync(int id)
+    {
+        return await _courseSessionRepository.DeleteAsync(id);
+    }
+
 
 }
 

@@ -1,5 +1,6 @@
 using CoursesManager.Application.Abstractions;
 using CoursesManager.Application.Dtos.Courses;
+using CoursesManager.Application.Dtos.CourseSessions;
 using CoursesManager.Application.Dtos.Participants;
 using CoursesManager.Application.Dtos.Teachers;
 using CoursesManager.Application.Services;
@@ -150,6 +151,40 @@ sessions.MapGet("/", async (CourseSessionService service) =>
     var result = await service.GetAllCourseSessionsAsync();
     return Results.Ok(result);
 });
+
+//hämtar kurstillfälle via id:t
+sessions.MapGet("/{id:int}", async (int id, CourseSessionService service) =>
+{
+    var result = await service.GetCourseSessionByIdAsync(id);
+
+    if (result is null)
+        return Results.NotFound();
+
+    return Results.Ok(result);
+});
+
+//uppdaterar kurstillfälle
+sessions.MapPut("/{id:int}", async (int id, UpdateCourseSessionDto dto, CourseSessionService service) =>
+{
+    var result = await service.UpdateCourseSessionAsync(id, dto);
+
+    if (result is null)
+        return Results.NotFound();
+
+    return Results.Ok(result);
+});
+
+//tar bort kurstillfälle
+sessions.MapDelete("/{id:int}", async (int id, CourseSessionService service) =>
+{
+    var deleted = await service.DeleteCourseSessionAsync(id);
+
+    if (!deleted)
+        return Results.NotFound();
+
+    return Results.NoContent();
+});
+
 
 #endregion
 
