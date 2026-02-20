@@ -13,6 +13,19 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// CORS-konfig som tillåter att frontend (React på port 5173) får anropa API:et. Tog hjälp av chatgpt
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // frontendens adress
+                  .AllowAnyHeader() // tillåter alla headers
+                  .AllowAnyMethod(); // tillåter GET, POST, PUT, DELETE
+        });
+});
+
+
 //för reg av DbContext och kopplingen till sql servern
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -50,7 +63,7 @@ builder.Services.AddScoped<RegistrationService>();
 
 #region Swagger
 
-//reggar stöd för min-API och swagger
+//reggar stöd för minimal api och swagger
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
@@ -60,6 +73,10 @@ builder.Services.AddSwaggerGen();
 
 //själva applikationen som skapas
 var app = builder.Build();
+
+//aktiverar CORS så frontend kan få anropa API:et
+app.UseCors("AllowFrontend");
+
 
 if (app.Environment.IsDevelopment())
 {
