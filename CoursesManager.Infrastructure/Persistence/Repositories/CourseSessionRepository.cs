@@ -16,15 +16,15 @@ public class CourseSessionRepository
     {
     }
 
-//hämtar kurstillfälle via id
-public async Task<CourseSessionEntity?> GetByIdAsync(int id)
+    //hämtar kurstillfälle via id
+    public async Task<CourseSessionEntity?> GetByIdAsync(int id)
 {
     return await _context.Set<CourseSessionEntity>()
         .FirstOrDefaultAsync(s => s.Id == id);
 }
 
-//upppdaterar kurstillfälle
-public async Task<CourseSessionEntity?> UpdateAsync(int id, CourseSessionEntity entity)
+    //upppdaterar kurstillfälle
+    public async Task<CourseSessionEntity?> UpdateAsync(int id, CourseSessionEntity entity)
 {
     var existingSession = await _context.Set<CourseSessionEntity>()
         .FirstOrDefaultAsync(s => s.Id == id);
@@ -41,8 +41,8 @@ public async Task<CourseSessionEntity?> UpdateAsync(int id, CourseSessionEntity 
     return existingSession;
 }
 
-//tar bort kurstillfälle
-public async Task<bool> DeleteAsync(int id)
+    //tar bort kurstillfälle
+    public async Task<bool> DeleteAsync(int id)
 {
     var entity = await _context.Set<CourseSessionEntity>()
         .FirstOrDefaultAsync(s => s.Id == id);
