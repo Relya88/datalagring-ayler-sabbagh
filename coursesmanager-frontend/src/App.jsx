@@ -24,7 +24,7 @@ function App() {
 
   const handleRegistration = async () => {
     try {
-      // 1️⃣ Skapa participant
+      //skapa deltagare
       const participantResponse = await fetch(
         "https://localhost:7250/api/participants",
         {
@@ -42,7 +42,7 @@ function App() {
 
       const newParticipant = await participantResponse.json();
 
-      // 2️⃣ Registrera på courseSession
+      //regga kurstillfälle
       await fetch("https://localhost:7250/api/registrations", {
         method: "POST",
         headers: {
