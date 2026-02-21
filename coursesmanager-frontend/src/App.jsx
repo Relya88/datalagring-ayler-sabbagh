@@ -6,28 +6,62 @@ function App() {
   const [data, setData] = useState([]);
   const [message, setMessage] = useState("");
 
+  const [showForm, setShowForm] = useState(false);
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+
   const fetchData = async (endpoint) => {
     const response = await fetch(`https://localhost:7250/api/${endpoint}`);
     const result = await response.json();
     setData(result);
     setActiveSection(endpoint);
     setMessage("");
+    setShowForm(false);
   };
 
-  const registerToCourse = async (courseId) => {
-    // Dummy registration example
-    await fetch("https://localhost:7250/api/registrations", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        courseId: courseId,
-        participantId: 1, // tillfällig test-id
-      }),
-    });
+  const handleRegistration = async () => {
+    try {
+      // 1️⃣ Skapa participant
+      const participantResponse = await fetch(
+        "https://localhost:7250/api/participants",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+          }),
+        }
+      );
 
-    setMessage("Successfully registered!");
+      const newParticipant = await participantResponse.json();
+
+      // 2️⃣ Registrera på courseSession
+      await fetch("https://localhost:7250/api/registrations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          participantId: newParticipant.id,
+          courseSessionId: selectedCourseId,
+        }),
+      });
+
+      setMessage("Successfully registered!");
+      setShowForm(false);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -54,10 +88,13 @@ function App() {
               <li key={index}>
                 {Object.values(item).join(" - ")}
 
-                {activeSection === "courses" && (
+                {activeSection === "coursesessions" && (
                   <button
                     className="register-btn"
-                    onClick={() => registerToCourse(item.id)}
+                    onClick={() => {
+                      setSelectedCourseId(item.id);
+                      setShowForm(true);
+                    }}
                   >
                     Register here
                   </button>
@@ -65,6 +102,37 @@ function App() {
               </li>
             ))}
           </ul>
+        </div>
+      )}
+
+      {showForm && (
+        <div className="form-section">
+          <h3>Register to course</h3>
+
+          <input
+            type="text"
+            placeholder="First name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+
+          <input
+            type="text"
+            placeholder="Last name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <button onClick={handleRegistration}>
+            Submit
+          </button>
         </div>
       )}
 
