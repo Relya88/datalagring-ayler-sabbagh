@@ -1,55 +1,74 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import "./App.css";
 
 function App() {
-  const [courses, setCourses] = useState([]);
-  const [title, setTitle] = useState("");
+  const [activeSection, setActiveSection] = useState("");
+  const [data, setData] = useState([]);
+  const [message, setMessage] = useState("");
 
-  // Hämtar alla kurser från API:et
-  useEffect(() => {
-    fetch("https://localhost:7250/api/courses")
-      .then((res) => res.json())
-      .then((data) => setCourses(data))
-      .catch((err) => console.error(err));
-  }, []);
+  const fetchData = async (endpoint) => {
+    const response = await fetch(`https://localhost:7250/api/${endpoint}`);
+    const result = await response.json();
+    setData(result);
+    setActiveSection(endpoint);
+    setMessage("");
+  };
 
-  // Skapar en ny kurs
-  const createCourse = async () => {
-    const newCourse = {
-      courseCode: "FRONT101",
-      title: title,
-      description: "Created from frontend",
-    };
-
-    await fetch("https://localhost:7250/api/courses", {
+  const registerToCourse = async (courseId) => {
+    // Dummy registration example
+    await fetch("https://localhost:7250/api/registrations", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newCourse),
+      body: JSON.stringify({
+        courseId: courseId,
+        participantId: 1, // tillfällig test-id
+      }),
     });
 
-    window.location.reload();
+    setMessage("Successfully registered!");
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Courses</h1>
+    <div className="page">
+      <div className="card-wrapper">
+        <div className="card" onClick={() => fetchData("courses")}>
+          Courses
+        </div>
+        <div className="card" onClick={() => fetchData("coursesessions")}>
+          CourseSessions
+        </div>
+        <div className="card" onClick={() => fetchData("participants")}>
+          Participants
+        </div>
+        <div className="card" onClick={() => fetchData("teachers")}>
+          Teachers
+        </div>
+      </div>
 
-      <input
-        placeholder="Course title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      {activeSection && (
+        <div className="list-section">
+          <ul>
+            {data.map((item, index) => (
+              <li key={index}>
+                {Object.values(item).join(" - ")}
 
-      <button onClick={createCourse}>Create Course</button>
+                {activeSection === "courses" && (
+                  <button
+                    className="register-btn"
+                    onClick={() => registerToCourse(item.id)}
+                  >
+                    Register here
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
-      <ul>
-        {courses.map((course) => (
-          <li key={course.id}>
-            {course.courseCode} - {course.title}
-          </li>
-        ))}
-      </ul>
+      {message && <p className="success-msg">{message}</p>}
     </div>
   );
 }
