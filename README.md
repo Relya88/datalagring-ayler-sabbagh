@@ -19,8 +19,8 @@ _______________________________________________________________________________
 Starta projektet
 
 1. Kör "Update-Database" vid första start.
-2. Starta backend med F5 i Visual Studio.
-3. Gå till frontend-mappen i terminal och ange:
+2. Starta backend lokalt eller med F5.
+3. Frontend startas med:
    - "npm install"
    - "npm run dev"
-4. Frontend körs på http://localhost:5173
+4. Terminalen visar vilken localhost port som används
