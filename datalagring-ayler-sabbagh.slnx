@@ -1,3 +1,27 @@
 <Solution>
+  <Project Path="coursesmanager-frontend/" Type="Website" DisplayName="coursesmanager-frontend">
+    <BuildType Project="Debug" />
+    <Properties Name="WebsiteProperties">
+      <Property Name="Debug.AspNetCompiler.Debug" Value="&quot;True&quot;" />
+      <Property Name="Debug.AspNetCompiler.FixedNames" Value="&quot;false&quot;" />
+      <Property Name="Debug.AspNetCompiler.ForceOverwrite" Value="&quot;true&quot;" />
+      <Property Name="Debug.AspNetCompiler.PhysicalPath" Value="&quot;coursesmanager-frontend\&quot;" />
+      <Property Name="Debug.AspNetCompiler.TargetPath" Value="&quot;PrecompiledWeb\localhost_52994\&quot;" />
+      <Property Name="Debug.AspNetCompiler.Updateable" Value="&quot;true&quot;" />
+      <Property Name="Debug.AspNetCompiler.VirtualPath" Value="&quot;/localhost_52994&quot;" />
+      <Property Name="Release.AspNetCompiler.Debug" Value="&quot;False&quot;" />
+      <Property Name="Release.AspNetCompiler.FixedNames" Value="&quot;false&quot;" />
+      <Property Name="Release.AspNetCompiler.ForceOverwrite" Value="&quot;true&quot;" />
+      <Property Name="Release.AspNetCompiler.PhysicalPath" Value="&quot;coursesmanager-frontend\&quot;" />
+      <Property Name="Release.AspNetCompiler.TargetPath" Value="&quot;PrecompiledWeb\localhost_52994\&quot;" />
+      <Property Name="Release.AspNetCompiler.Updateable" Value="&quot;true&quot;" />
+      <Property Name="Release.AspNetCompiler.VirtualPath" Value="&quot;/localhost_52994&quot;" />
+      <Property Name="VWDPort" Value="&quot;52994&quot;" />
+    </Properties>
+  </Project>
+  <Project Path="CoursesManager.Application/CoursesManager.Application.csproj" Id="13753ab9-b952-4db7-9d94-a2a06ce433b0" />
   <Project Path="CoursesManager.Domain/CoursesManager.Domain.csproj" Id="b97ce3d9-0261-4f48-b8b6-ad5b9240219a" />
+  <Project Path="CoursesManager.Infrastructure/CoursesManager.Infrastructure.csproj" Id="0b2bca92-7243-41f7-8b37-80ff94d97b9f" />
+  <Project Path="CoursesManager.Presentation/CoursesManager.Presentation.csproj" Id="d919fd47-96c4-43a2-a73b-683988622411" />
+  <Project Path="CoursesManager.Tests/CoursesManager.Tests.csproj" Id="58293246-57f9-49b3-8774-a242fc3fd3de" />
 </Solution>
