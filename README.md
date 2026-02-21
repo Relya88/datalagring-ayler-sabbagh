@@ -7,7 +7,7 @@ Projektet består av:
 - ASP.NET Core Minimal API
 - Entity Framework Core (Code First + Migrations)
 - SQL Server (LocalDB)
-- React (Vite) frontend
+- React (Vite) frontend i VS Code
 - Enhetstester med xUnit
 
 Systemet hanterar kurser, kurstillfällen, deltagare, lärare och registreringar.
